@@ -35,7 +35,6 @@ public class WeightedRandomSampling {
         }
     }
 
-
     private int getIndexInCdf(Double prob){
         int start = 0;
         int end = cdf.size() - 1;
