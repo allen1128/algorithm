@@ -12,6 +12,16 @@ public class WeightedRandomSampling {
         calculateCdf(weights);
     }
 
+    public List<Integer> getSamples(int num){
+        List<Integer> result = new ArrayList<Integer>(num);
+        Random random = new Random();
+        for (int i = 0; i < num; i++){
+            Double prob = random.nextDouble();
+            result.add(getIndexInCdf(prob));
+        }
+        return result;
+    }
+
     private void calculateCdf(List<Double> weights){
         Double totalWeight = 0.0d;
         for (Double weight : weights){
@@ -25,17 +35,8 @@ public class WeightedRandomSampling {
         }
     }
 
-    public List<Integer> getSamples(int num){
-        List<Integer> result = new ArrayList<Integer>(num);
-        Random random = new Random();
-        for (int i = 0; i < num; i++){
-            Double prob = random.nextDouble();
-            result.add(getIndex(prob));
-        }
-        return result;
-    }
 
-    public int getIndex(Double prob){
+    private int getIndexInCdf(Double prob){
         int start = 0;
         int end = cdf.size() - 1;
 
