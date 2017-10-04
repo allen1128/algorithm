@@ -19,29 +19,29 @@ public class CopyListWithRandomPointer {
 
     public static RandomListNode copyRandomList(RandomListNode head) {
         RandomListNode dummyhead = new RandomListNode(-1);
-        RandomListNode prev = dummyhead;
+        RandomListNode curr = dummyhead;
 
         while(head != null){
             if (map.containsKey(head)) {
-                prev.next = map.get(head);
+                curr.next = map.get(head);
             } else {
                 RandomListNode node = new RandomListNode(head.label);
                 map.put(head, node);
-                prev.next = node;
+                curr.next = node;
             }
 
             if (head.random != null){
                 if (map.containsKey(head.random)){
-                    prev.next.random = map.get(head.random);
+                    curr.next.random = map.get(head.random);
                 } else {
                     RandomListNode random = new RandomListNode(head.random.label);
-                    prev.next.random = random;
+                    curr.next.random = random;
                     map.put(head.random, random);
                 }
             }
 
             head = head.next;
-            prev = prev.next;
+            curr = curr.next;
         }
 
         return dummyhead.next;
