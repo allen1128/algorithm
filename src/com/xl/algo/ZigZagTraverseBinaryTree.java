@@ -53,6 +53,7 @@ public class ZigZagTraverseBinaryTree {
                 break;
             }
         }
+        int[] results = new int[0];
 
         return result;
     }
