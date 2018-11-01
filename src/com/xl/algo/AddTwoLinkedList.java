@@ -11,6 +11,14 @@ public class AddTwoLinkedList {
         ListNode(int x) {
             val = x;
         }
+
+        @Override
+        public String toString() {
+            return "ListNode{" +
+                    "val=" + val +
+                    ", next=" + next +
+                    '}';
+        }
     }
 
     public ListNode reverseList(ListNode head) {
@@ -64,6 +72,8 @@ public class AddTwoLinkedList {
     public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
         Stack<Integer> stack1 = new Stack<Integer>();
         Stack<Integer> stack2 = new Stack<Integer>();
+        int[] test;
+        List<String> test2 = new ArrayList<String>();
 
         while (l1 != null) {
             stack1.push(l1.val);
@@ -109,5 +119,8 @@ public class AddTwoLinkedList {
         node2.next = new ListNode(3);
 
         System.out.println(atll.addTwoNumbers2(node1, node2));
+        
+
+        HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
     }
 }

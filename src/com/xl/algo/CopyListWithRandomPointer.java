@@ -1,20 +1,20 @@
 package com.xl.algo;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-class RandomListNode {
-    int label;
-    RandomListNode next, random;
-
-    RandomListNode(int x) {
-        this.label = x;
-    }
-};
 
 public class CopyListWithRandomPointer {
+    public static class RandomListNode {
+        int label;
+        RandomListNode next, random;
+
+        RandomListNode(int x) {
+            this.label = x;
+        }
+    };
+
+
     public static Map<RandomListNode, RandomListNode> map = new HashMap<RandomListNode, RandomListNode>();
 
     public static RandomListNode copyRandomList(RandomListNode head) {
