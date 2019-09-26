@@ -1,15 +1,13 @@
 package com.xl.algo.deepdive.hashmap;
 
 
-import com.xl.algo.deepdive.linkedlist.DoublyLinkedList;
-
 import java.util.Map;
 import java.util.HashMap;
 
 public class LRUHashMap<K, V> {
     public static final float LOAD_FACTOR = 0.75f;
 
-    private Map<K, V> nodes;
+    private Map<K, DoublyLinkedNode> map;
 
     private DoublyLinkedNode header;
 
@@ -25,79 +23,71 @@ public class LRUHashMap<K, V> {
         header.setNext(tailer);
         tailer.setPrev(header);
 
-        nodes = new HashMap<>(capacity, LOAD_FACTOR);
+        map = new HashMap<>(capacity, LOAD_FACTOR);
         this.capacity = capacity;
         size = 0;
     }
 
     public void put(K key, V value) {
-        nodes.put(key, value);
+        DoublyLinkedNode node = map.get(key);
 
-        size++;
-        DoublyLinkedNode node = header;
-        while (node != null && node.k != key) {
-            node = node.next;
+        if (node == null) {
+            size++;
+            node = new DoublyLinkedNode(key, value);
+            appendFront(node);
+        } else {
+            node.v = value;
+            moveToHead(node);
         }
 
-        remove(node);
-        appendFront(new DoublyLinkedNode(key, value));
+        map.put(key, node);
 
         if (size > capacity) {
-            removeTail();
+            popTail();
         }
     }
 
-    private void removeTail() {
-        if (tailer.prev != null) {
-            nodes.remove(tailer.prev.k);
-            if (tailer.prev.prev != null) {
-                tailer.prev.prev.next = tailer;
-            }
-            tailer.prev = tailer.prev.prev;
+    private void moveToHead(DoublyLinkedNode node) {
+        if (node == null) {
+            return;
         }
+        remove(node);
+        appendFront(node);
+    }
+
+    private void popTail() {
+        if (size <= 0) {
+            return;
+        }
+        map.remove(tailer.prev.k);
+        remove(tailer.prev);
         size--;
     }
 
     public void remove(K key) {
-        if (!nodes.containsKey(key)) {
+        if (!map.containsKey(key)) {
             return;
         }
 
-        nodes.remove(key);
-        size--;
-        DoublyLinkedNode node = header;
-        while (node != null && node.k != key) {
-            node = node.next;
-        }
-
+        DoublyLinkedNode node = map.get(key);
         remove(node);
+        map.remove(key);
+        size--;
     }
 
     public V get(K key) {
-        if (!nodes.containsKey(key)) {
+        if (!map.containsKey(key)) {
             return null;
         }
-        DoublyLinkedNode node = header;
-        while (node != null && node.k != key) {
-            node = node.next;
-        }
+        DoublyLinkedNode node = map.get(key);
         remove(node);
         appendFront(node);
-        return nodes.get(key);
+        return (V) map.get(key).v;
     }
 
     private void remove(DoublyLinkedNode node) {
-        if (node == null) {
-            return;
-        }
-
-        if (node.prev != null) {
-            node.prev.next = node.next;
-        }
-
-        if (node.next != null) {
-            node.next.prev = node.prev;
-        }
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
     }
 
     private void appendFront(DoublyLinkedNode node) {
@@ -112,8 +102,8 @@ public class LRUHashMap<K, V> {
     }
 
     public static class DoublyLinkedNode<K, V> {
-        DoublyLinkedNode prev = null;
-        DoublyLinkedNode next = null;
+        DoublyLinkedNode prev;
+        DoublyLinkedNode next;
         K k;
         V v;
 
@@ -176,7 +166,11 @@ public class LRUHashMap<K, V> {
         lruHashMap.put(1, 1l);
         lruHashMap.put(2, 2l);
         lruHashMap.put(3, 3l);
+        System.out.println(lruHashMap.size);
+        System.out.println(lruHashMap.getHeader());
         lruHashMap.get(1);
+        System.out.println(lruHashMap.size);
+        System.out.println(lruHashMap.getHeader());
         lruHashMap.put(4, 4l);
         lruHashMap.remove(4);
         lruHashMap.put(3, 33l);
