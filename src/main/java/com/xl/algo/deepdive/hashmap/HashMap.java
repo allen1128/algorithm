@@ -87,8 +87,27 @@ public class HashMap<K, V> {
     }
 
     private void growSize() {
-        capacity = capacity * 2;
-        nodes = Arrays.copyOf(nodes, capacity);
+        Entry<K, V>[] oldTables = nodes;
+        nodes = new Entry[nodes.length * 2];
+        capacity = nodes.length;
+        size = 0;
+        for (int i = 0; i < oldTables.length; i++) {
+            if (oldTables[i] == null) {
+                continue;
+            }
+
+            Entry<K, V> entry = oldTables[i];
+            while (entry != null) {
+                int index = entry.key.hashCode() % nodes.length;
+                if (nodes[index] == null) {
+                    nodes[index] = new Entry(entry.key, entry.value, null);
+                } else {
+                    nodes[index] = new Entry(entry.key, entry.value, nodes[index]);
+                }
+                size++;
+                entry = entry.next;
+            }
+        }
     }
 
     public V get(K key) {
@@ -113,15 +132,13 @@ public class HashMap<K, V> {
 
     public static void main(String[] args) {
         HashMap<Integer, Integer> map = new HashMap<>(3);
-        map.put(1, 1);
-        map.put(2, 2);
+        map.put(0, 0);
         map.put(3, 3);
-        System.out.println("size:" + map.size);
-        map.remove(2);
-        System.out.println("size:" + map.size);
-        map.remove(1);
-        System.out.println("size:" + map.size);
-        map.put(4, 4);
-        System.out.println("size:" + map.size);
+        map.put(6, 6);
+        map.put(9, 9);
+        map.put(12, 12);
+        map.remove(0);
+        System.out.println(map.get(0));
+        System.out.println(map.get(0));
     }
 }
