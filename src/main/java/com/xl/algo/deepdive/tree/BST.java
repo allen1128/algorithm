@@ -104,18 +104,54 @@ public class BST {
         return node != null && node.data == data;
     }
 
+    public Node findPredecessor(int data) {
+        Node node = root;
+        Node pnode = null;
+
+        //find node
+        while (node != null) {
+            if (node.data < data) {
+                pnode = node;
+                node = node.right;
+            } else {
+                node = node.left;
+            }
+        }
+        return pnode;
+    }
+
+    public Node findSuccessor(int data) {
+        Node node = root;
+        Node pnode = null;
+
+        //find node
+        while (node != null) {
+            if (node.data > data) {
+                pnode = node;
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+
+        return pnode;
+    }
+
     public static void main(String[] args) {
         BST bst = new BST();
-        bst.insert(1);
         bst.insert(5);
+        bst.insert(1);
         bst.insert(8);
+        bst.insert(0);
+        bst.insert(10);
         System.out.println(bst.find(5));
         bst.delete(5);
         System.out.println(bst.find(5));
-
-        bst.insert(55);
-
-        System.out.println(bst.find(55));
+        //1 - 8 - 10
+        //|
+        //0
+        System.out.println(bst.findPredecessor(1).data);
+        System.out.println(bst.findSuccessor(8).data);
     }
 
 }
