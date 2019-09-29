@@ -9,7 +9,6 @@ public class LevelTraversal {
     List<Integer> level(BST.Node node) {
         List<Integer> result = new ArrayList<>();
         Queue<BST.Node> queue = new LinkedList<>();
-
         queue.offer(node);
 
         while (!queue.isEmpty()) {
