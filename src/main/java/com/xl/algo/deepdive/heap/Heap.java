@@ -15,6 +15,10 @@ public class Heap<T> {
         this.comparator = comparator;
     }
 
+    public int getCount() {
+        return count;
+    }
+
     public boolean insert(T data) {
         if (count >= capacity) {
             return false;
@@ -41,13 +45,20 @@ public class Heap<T> {
         return max;
     }
 
+    public T peek() {
+        if (count <= 0) {
+            return null;
+        }
+        return elements[1];
+    }
+
     public void heapify(T[] elements, int count, int i) {
         while (true) {
             int maxPos = i;
-            maxPos = i * 2 <= count && comparator.compare(elements[i * 2], elements[i]) > 0
+            maxPos = i * 2 <= count && comparator.compare(elements[i * 2], elements[maxPos]) > 0
                     ? i * 2
                     : maxPos;
-            maxPos = (i * 2 + 1) <= count && comparator.compare(elements[i * 2 + 1], elements[i]) > 0
+            maxPos = (i * 2 + 1) <= count && comparator.compare(elements[i * 2 + 1], elements[maxPos]) > 0
                     ? i * 2 + 1
                     : maxPos;
             if (maxPos == i) {
@@ -66,10 +77,13 @@ public class Heap<T> {
 
     public static void main(String[] args) {
         Heap<Integer> heap = new Heap<>(10,  (o1, o2) -> o1.compareTo(o2));
+        heap.insert(1);
+        heap.insert(5);
         heap.insert(35);
         heap.insert(25);
         heap.insert(55);
         heap.insert(-155);
+        System.out.println(heap.pop());
         System.out.println(heap.pop());
     }
 }
