@@ -1,6 +1,7 @@
 package com.xl.algo.deepdive.heap;
 
 import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Heap<T> {
     private T[] elements;
@@ -52,6 +53,20 @@ public class Heap<T> {
         return elements[1];
     }
 
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public void update(T element) {
+        for (int i = 1; i < count; i++) {
+            if (elements[i].equals(element)) {
+                elements[i] = element;
+                heapify(elements, count, i);
+                break;
+            }
+        }
+    }
+
     public void heapify(T[] elements, int count, int i) {
         while (true) {
             int maxPos = i;
@@ -85,5 +100,12 @@ public class Heap<T> {
         heap.insert(-155);
         System.out.println(heap.pop());
         System.out.println(heap.pop());
+
+        PriorityQueue<Integer> queu = new PriorityQueue<>();
+        queu.offer(1);
+        queu.offer(2);
+        System.out.println(queu.poll());
+
+
     }
 }

@@ -19,7 +19,6 @@ public class FlipBinaryTree {
         if (root == null) {
             return;
         }
-
         Node temp = root.left;
         root.left = root.right;
         root.right = temp;
@@ -35,9 +34,7 @@ public class FlipBinaryTree {
         root.left.right = new Node(5);
         root.right.left = new Node(6);
         root.right.right = new Node(7);
-
         FlipBinaryTree.flip(root);
-
         System.out.print(root);
     }
 }
