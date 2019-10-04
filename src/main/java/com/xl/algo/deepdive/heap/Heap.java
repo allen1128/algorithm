@@ -25,12 +25,7 @@ public class Heap<T> {
             return false;
         }
         elements[++count] = data;
-        int i = count;
-
-        while (i / 2 > 0 && comparator.compare(elements[i], elements[i / 2]) > 0) {
-            swap(elements, i, i / 2);
-            i /= 2;
-        }
+        heapifyUp(elements, count);
         return true;
     }
 
@@ -42,7 +37,7 @@ public class Heap<T> {
         elements[1] = elements[count];
         elements[count] = null;
         count--;
-        heapify(elements, count, 1);
+        heapifyDown(elements, count, 1);
         return max;
     }
 
@@ -58,16 +53,17 @@ public class Heap<T> {
     }
 
     public void update(T element) {
-        for (int i = 1; i < count; i++) {
+        for (int i = 1; i <= count; i++) {
             if (elements[i].equals(element)) {
                 elements[i] = element;
-                heapify(elements, count, i);
+                heapifyDown(elements, count, i);
+                heapifyUp(elements, i);
                 break;
             }
         }
     }
 
-    public void heapify(T[] elements, int count, int i) {
+    public void heapifyDown(T[] elements, int count, int i) {
         while (true) {
             int maxPos = i;
             maxPos = i * 2 <= count && comparator.compare(elements[i * 2], elements[maxPos]) > 0
@@ -81,6 +77,13 @@ public class Heap<T> {
             }
             swap(elements, i, maxPos);
             i = maxPos;
+        }
+    }
+
+    public void heapifyUp(T[] elements, int i) {
+        while (i / 2 > 0 && comparator.compare(elements[i], elements[i / 2]) > 0) {
+            swap(elements, i, i / 2);
+            i /= 2;
         }
     }
 
