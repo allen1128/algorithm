@@ -20,37 +20,6 @@ public class WeightedGraphA {
         adj[s].add(new Edge(s, t, w));
     }
 
-    public static class Vertex {
-        int vertexId;
-        int dist;
-
-        public Vertex(int vertexId, int dist) {
-            this.vertexId = vertexId;
-            this.dist = dist;
-        }
-
-        public int getVertexId() {
-            return vertexId;
-        }
-
-        public int getDist() {
-            return dist;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Vertex vertex = (Vertex) o;
-            return vertexId == vertex.vertexId;
-        }
-
-        @Override
-        public int hashCode() {
-            return vertexId;
-        }
-    }
-
     public static class Edge {
         int fromId;
         int endId;

@@ -8,18 +8,48 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.xl.algo.deepdive.graph.WeightedGraphA.Vertex;
 import com.xl.algo.deepdive.graph.WeightedGraphA.Edge;
 
-public class DijkstraWeightedGraph {
+public class Dijkstra {
 
     private WeightedGraphA graph;
 
     private Heap<Vertex> heap;
 
-    public DijkstraWeightedGraph(int v) {
+    public Dijkstra(int v) {
         this.graph = new WeightedGraphA(v);
         this.heap = new Heap<>(v, (o1, o2) -> o1.getDist() < o2.getDist() ? 1 : -1);
+    }
+
+    public static class Vertex {
+        int id;
+        int dist;
+
+        public Vertex(int id, int dist) {
+            this.id = id;
+            this.dist = dist;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public int getDist() {
+            return dist;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Vertex vertex = (Vertex) o;
+            return id == vertex.id;
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
     }
 
     public List<Integer> dijkstra(int i, int j) {
@@ -45,17 +75,17 @@ public class DijkstraWeightedGraph {
 
         while (!heap.isEmpty()) {
             Vertex minVertex = heap.pop();
-            if (minVertex.vertexId == j) {
+            if (minVertex.id == j) {
                 getSteps(i, j, prev, steps);
                 return steps;
             } else {
-                for (Edge neighbor : graph.getAdj()[minVertex.vertexId]) {
+                for (Edge neighbor : graph.getAdj()[minVertex.id]) {
                     int newDist = minVertex.dist + neighbor.weight;
 
                     Vertex nextVertex = vertices[neighbor.endId];
                     if (newDist < nextVertex.dist) {
                         nextVertex.dist = newDist;
-                        prev[nextVertex.getVertexId()] = minVertex.getVertexId();
+                        prev[nextVertex.getId()] = minVertex.getId();
                         if (inqueue[neighbor.endId]) {
                             heap.update(nextVertex);
                         } else {
@@ -87,7 +117,7 @@ public class DijkstraWeightedGraph {
             edges[i] = new LinkedList<>();
         }
 
-        DijkstraWeightedGraph spig = new DijkstraWeightedGraph(3);
+        Dijkstra spig = new Dijkstra(3);
         spig.graph.addEdge(0, 1, 1);
         spig.graph.addEdge(0, 2, 7);
         spig.graph.addEdge(1, 2, 5);
