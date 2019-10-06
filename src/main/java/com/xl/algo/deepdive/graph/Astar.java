@@ -121,6 +121,7 @@ public class Astar {
         pos[2][1] = 0;
         pos[3][0] = 0;
         pos[3][1] = 0;
+
         Astar astar = new Astar(4, pos);
         astar.graph.addEdge(0, 1, 1);
         astar.graph.addEdge(0, 2, 7);
